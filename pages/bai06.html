@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Bài 6 - Auto Test + PvP</title>
+<title>Math Arena - Bài 6</title>
 
 <style>
 body{
@@ -13,7 +13,6 @@ body{
     text-align:center;
 }
 
-/* MENU */
 .menu{
     display:flex;
     justify-content:center;
@@ -31,17 +30,13 @@ button{
     cursor:pointer;
 }
 
-button:hover{
-    background:#22c55e;
-}
+button:hover{background:#22c55e;}
 
-/* PAGE */
 .page{display:none;padding:20px;}
 .active{display:block;}
 
-/* CARD */
 .card{
-    width:450px;
+    width:500px;
     margin:20px auto;
     background:white;
     color:black;
@@ -49,62 +44,61 @@ button:hover{
     border-radius:15px;
 }
 
-/* INPUT */
 input{
     padding:10px;
     width:120px;
     text-align:center;
 }
 
-/* SCORE */
-.score{
-    display:flex;
-    justify-content:space-around;
+.badge{
+    padding:5px 10px;
+    border-radius:10px;
+    background:#22c55e;
+    display:inline-block;
 }
 </style>
 </head>
 
 <body>
 
-<!-- MENU -->
 <div class="menu">
-<button onclick="show('test')">📚 Auto Test</button>
+<button onclick="show('solo')">🎮 Solo 40 câu</button>
 <button onclick="show('pvp')">⚔️ PvP</button>
 </div>
 
-<!-- ================= AUTO TEST ================= -->
-<div id="test" class="page active">
+<!-- SOLO -->
+<div id="solo" class="page active">
 
 <div class="card">
-<h2>📚 THI 40 CÂU</h2>
+<h2>📚 SOLO MODE</h2>
 
 <h3 id="qText">Loading...</h3>
-
 <input id="ans">
 <br>
-<button onclick="checkTest()">Trả lời</button>
+<button onclick="checkSolo()">Trả lời</button>
 
-<p>⏱ Time: <span id="time">0</span></p>
-<p>⭐ Score: <span id="score">0</span></p>
+<p>⏱ <span id="time">0</span>s</p>
+<p>⭐ Điểm: <span id="score">0</span></p>
 <p>📘 Câu: <span id="q">1</span>/40</p>
+
+<p id="exp"></p>
 </div>
 
 </div>
 
-<!-- ================= PVP ================= -->
+<!-- PVP -->
 <div id="pvp" class="page">
 
-<h2>⚔️ PvP DUEL MODE</h2>
-
-<div class="score">
-<h3>You: <span id="me">0</span></h3>
-<h3>Enemy: <span id="enemy">0</span></h3>
-</div>
-
 <div class="card">
-<h3 id="pq">Chưa bắt đầu</h3>
+<h2>⚔️ PvP ARENA</h2>
+
+<h3 id="pq">Ready</h3>
+
 <input id="pans">
-<button onclick="checkPvP()">Trả lời</button>
+<button onclick="checkPvP()">OK</button>
+
+<p>You: <span id="me">0</span> | Enemy: <span id="enemy">0</span></p>
+<p id="rank"></p>
 </div>
 
 </div>
@@ -113,126 +107,160 @@ input{
 
 /* SWITCH */
 function show(id){
-    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById(id).classList.add("active");
 }
 
-/* ================= AUTO TEST ================= */
+/* ================= AI GENERATOR ================= */
 
-let q=1;
-let score=0;
-let correct=0;
-let time=10;
-let t;
+let q=1, score=0, correct=0, time=10;
 
-/* GENERATE */
-function genTest(){
+function genSolo(){
 
-    let a,b;
+let type = Math.ceil(Math.random()*4);
+let a,b,ans,exp="";
 
-    if(q<=10){
-        a=r(1,10); b=r(1,10);
-        correct=a+b;
-        time=10;
-        setText(a+" + "+b);
-    }
-
-    else if(q<=20){
-        a=r(10,50); b=r(1,20);
-        correct=a-b;
-        time=20;
-        setText(a+" - "+b);
-    }
-
-    else if(q<=30){
-        a=r(2,12); b=r(2,12);
-        correct=a*b;
-        time=30;
-        setText(a+" × "+b);
-    }
-
-    else if(q<=35){
-        let x=r(5,20);
-        correct=x;
-        time=30;
-        setText("Một số ×2 = "+(x*2)+". Tìm số?");
-    }
-
-    else{
-        let a2=r(3,10);
-        let b2=r(4,12);
-        correct=a2*a2 + b2*b2;
-        time=40;
-        setText("Pythagoras: "+a2+","+b2);
-    }
+if(q<=10){
+a=r(1,20); b=r(1,20);
+ans=a+b;
+time=10;
+exp="Cộng số tự nhiên cơ bản";
+showQ(a+" + "+b,ans,exp);
 }
 
-/* SET TEXT */
-function setText(t){
-    document.getElementById("qText").innerText=t;
+else if(q<=20){
+a=r(10,50); b=r(1,30);
+ans=a-b;
+time=20;
+exp="Trừ số tự nhiên có nhớ";
+showQ(a+" - "+b,ans,exp);
 }
 
-/* CHECK TEST */
-function checkTest(){
-
-    let u=Number(ans.value);
-
-    if(u==correct){
-        score+=10;
-    }
-
-    q++;
-
-    if(q>40){
-        setText("🎓 Hoàn thành!");
-        return;
-    }
-
-    ans.value="";
-    genTest();
+else if(q<=30){
+if(type<=2){
+a=r(2,12); b=r(2,12);
+ans=a*b;
+exp="Nhân số tự nhiên";
+showQ(a+" × "+b,ans,exp);
+}
+else{
+a=r(10,50);
+ans=a;
+exp="Một số tăng/giảm theo đề bài";
+showQ("Số x + 5 = "+(a+5)+". Tìm x",ans,exp);
+}
 }
 
-/* ================= PvP LOCAL ================= */
+else{
+/* HSG STYLE (GIỐNG ĐỀ BẠN GỬI) */
+let x=r(5,30);
+ans=x;
+exp="Bài suy luận nhiều bước";
 
-let me=0;
-let enemy=0;
-let pc=0;
+showQ(
+"Ba lần một số trừ 6 bằng "+(3*x-6)+". Tìm số",
+ans,
+exp
+);
+}
 
-/* GENERATE PvP */
+}
+
+function showQ(t,a,e){
+document.getElementById("qText").innerText=t;
+correct=a;
+document.getElementById("exp").innerText="";
+}
+
+/* CHECK SOLO */
+function checkSolo(){
+let u=Number(ans.value);
+
+if(u==correct){
+score+=10;
+document.getElementById("exp").innerText="✔ Đúng: "+document.getElementById("exp").innerText;
+}
+
+q++;
+
+if(q>40){
+end();
+return;
+}
+
+ans.value="";
+genSolo();
+
+document.getElementById("score").innerText=score;
+document.getElementById("q").innerText=q;
+}
+
+/* END */
+function end(){
+
+let rank="Bronze";
+if(score>200) rank="Silver";
+if(score>300) rank="Gold";
+if(score>350) rank="Diamond";
+if(score>380) rank="Legend";
+
+document.body.innerHTML=`
+<h1>🏆 HOÀN THÀNH</h1>
+<h2>Score: ${score}</h2>
+<div class="badge">${rank}</div>
+<br><br>
+<button onclick="location.reload()">Chơi lại</button>
+`;
+}
+
+/* ================= PVP (LOCAL ARENA) ================= */
+
+let me=0, enemy=0, pc=0;
+
 function genPvP(){
 
-    let a=r(1,10);
-    let b=r(1,10);
+let a=r(1,20);
+let b=r(1,20);
+pc=a+b;
 
-    pc=a+b;
-    document.getElementById("pq").innerText=a+" + "+b;
+document.getElementById("pq").innerText=a+" + "+b;
 }
 
-/* CHECK PvP */
 function checkPvP(){
 
-    let u=Number(pans.value);
+let u=Number(pans.value);
 
-    if(u==pc){
-        me++;
-    }else{
-        enemy++;
-    }
+if(u==pc) me++;
+else enemy++;
 
-    document.getElementById("me").innerText=me;
-    document.getElementById("enemy").innerText=enemy;
+document.getElementById("me").innerText=me;
+document.getElementById("enemy").innerText=enemy;
 
-    pans.value="";
-    genPvP();
+rank();
+
+pans.value="";
+genPvP();
+}
+
+function rank(){
+
+let total=me-enemy;
+
+let rnk="Bronze";
+if(total>=3) rnk="Silver";
+if(total>=6) rnk="Gold";
+if(total>=10) rnk="Legend";
+
+document.getElementById("rank").innerText="Rank: "+rnk;
 }
 
 /* UTIL */
 function r(a,b){
-    return Math.floor(Math.random()*(b-a+1))+a;
+return Math.floor(Math.random()*(b-a+1))+a;
 }
 
 /* START */
-genTest();
+genSolo();
 genPvP();
 
 </script>
