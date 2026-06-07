@@ -90,7 +90,8 @@ button{padding:10px 20px;margin-top:10px;}
 </div>
 
 <script>
-
+let correctSound = new Audio("https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg");
+let wrongSound = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
 let q=1;
 let score=0;
 let correct=0;
@@ -164,10 +165,11 @@ function startTime(type){
         document.getElementById("timer").innerText="⏱ "+time;
 
         if(time<=0){
-            clearInterval(t);
-            q++;
-            next();
-        }
+    wrongSound.play();   // 🔊 âm thanh khi hết giờ
+    clearInterval(t);    // dừng đồng hồ
+    q++;                 // sang câu tiếp theo
+    next();              // tạo câu mới
+}
     },1000);
 }
 
@@ -177,6 +179,9 @@ function check(){
 
     if(user==correct){
         score++;
+        correctSound.play(); // 🔊 đúng
+    }else{
+        wrongSound.play(); // 🔊 sai
     }
 
     q++;
