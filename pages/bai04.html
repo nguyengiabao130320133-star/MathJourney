@@ -2,18 +2,18 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Game Toán Học</title>
+<title>Game Toán Có Thời Gian</title>
 
 <style>
 body{
-    font-family:Arial;
     margin:0;
-    background:linear-gradient(135deg,#1e3c72,#2a5298);
+    font-family:Arial;
+    background:linear-gradient(135deg,#141e30,#243b55);
     color:white;
     text-align:center;
 }
 
-/* ===== START SCREEN ===== */
+/* START */
 #startScreen{
     height:100vh;
     display:flex;
@@ -24,26 +24,15 @@ body{
 
 #startBtn{
     padding:20px 40px;
-    font-size:24px;
-    font-weight:bold;
+    font-size:22px;
     border:none;
-    border-radius:15px;
+    border-radius:12px;
     cursor:pointer;
     background:#ffcc00;
-    transition:0.3s;
+    font-weight:bold;
 }
 
-#startBtn:hover{
-    transform:scale(1.1);
-}
-
-/* DECOR */
-.deco{
-    font-size:50px;
-    margin:10px;
-}
-
-/* GAME BOX */
+/* GAME */
 #gameBox{
     display:none;
     padding:20px;
@@ -53,23 +42,28 @@ body{
     background:white;
     color:black;
     max-width:500px;
-    margin:20px auto;
+    margin:auto;
     padding:20px;
     border-radius:15px;
-    box-shadow:0 10px 20px rgba(0,0,0,0.3);
 }
 
 input{
     padding:10px;
     font-size:18px;
-    width:100px;
+    width:120px;
     text-align:center;
 }
 
 button{
-    padding:10px 20px;
     margin-top:10px;
-    cursor:pointer;
+    padding:10px 20px;
+}
+
+/* TIMER */
+#timer{
+    font-size:30px;
+    margin:10px;
+    color:#ffcc00;
 }
 
 /* RESULT */
@@ -77,29 +71,24 @@ button{
     display:none;
     padding:40px;
 }
-
-.cup{
-    font-size:40px;
-}
 </style>
 
 </head>
 
 <body>
 
-<!-- 🎮 START SCREEN -->
+<!-- START -->
 <div id="startScreen">
-    <div class="deco">📚 🏆 📖 🏅 📚</div>
-    <h1>GAME HỌC TOÁN</h1>
+    <h1>📚 GAME TOÁN HỌC</h1>
     <p>Bấm bắt đầu để chơi</p>
     <button id="startBtn">BẮT ĐẦU</button>
-    <div class="deco">🏆 📖 🏅 📚 🏆</div>
 </div>
 
-<!-- 🎯 GAME -->
+<!-- GAME -->
 <div id="gameBox">
 
-    <h2 id="levelText">Câu 1</h2>
+    <h2 id="levelText"></h2>
+    <div id="timer">⏱ 0</div>
 
     <div class="questionBox">
         <h2 id="question"></h2>
@@ -112,95 +101,128 @@ button{
 
 </div>
 
-<!-- 🏁 RESULT -->
+<!-- RESULT -->
 <div id="resultScreen">
     <h1>🎉 HOÀN THÀNH 🎉</h1>
-    <h2 id="smartLevel"></h2>
-    <p id="cupText"></p>
+    <h2 id="smart"></h2>
+    <p id="cup"></p>
 </div>
 
 <script>
 
 let current = 1;
 let score = 0;
-let correctAnswer = 0;
+let correct = 0;
 
-// ===== START GAME =====
+let time = 0;
+let timer;
+
 document.getElementById("startBtn").onclick = function(){
     document.getElementById("startScreen").style.display="none";
     document.getElementById("gameBox").style.display="block";
-    generateQuestion();
+    nextQuestion();
 }
 
-// ===== RANDOM QUESTION =====
-function generateQuestion(){
+// ===== TIME RULE =====
+function getTimeLimit(q){
+    if(q <= 5) return 10;
+    if(q <= 8) return 30;
+    return 60;
+}
+
+// ===== QUESTION =====
+function nextQuestion(){
+
+    if(current > 10){
+        endGame();
+        return;
+    }
 
     document.getElementById("levelText").innerText = "Câu " + current;
 
     let a,b,op;
 
-    // 🔥 PHÂN LOẠI ĐỘ KHÓ
     if(current <= 5){
-        a = Math.floor(Math.random()*10);
-        b = Math.floor(Math.random()*10);
+        a = rand(10);
+        b = rand(10);
         op = "+";
     }
     else if(current <= 8){
-        a = Math.floor(Math.random()*50);
-        b = Math.floor(Math.random()*20);
-        op = Math.random()>0.5 ? "+" : "-";
+        a = rand(50);
+        b = rand(20);
+        op = Math.random()>0.5?"+":"-";
     }
     else{
-        a = Math.floor(Math.random()*100);
-        b = Math.floor(Math.random()*50);
-        op = Math.random()>0.5 ? "*" : "-"; // siêu khó
+        a = rand(100);
+        b = rand(50);
+        op = Math.random()>0.5?"*":"-";
     }
 
-    // tính đáp án
-    if(op=="+") correctAnswer = a+b;
-    if(op=="-") correctAnswer = a-b;
-    if(op=="*") correctAnswer = a*b;
+    if(op=="+") correct = a+b;
+    if(op=="-") correct = a-b;
+    if(op=="*") correct = a*b;
 
     document.getElementById("question").innerText =
         a + " " + op + " " + b + " = ?";
+
+    startTimer(getTimeLimit(current));
 }
 
-// ===== CHECK ANSWER =====
+// ===== TIMER =====
+function startTimer(sec){
+
+    clearInterval(timer);
+    time = sec;
+
+    document.getElementById("timer").innerText = "⏱ " + time;
+
+    timer = setInterval(()=>{
+        time--;
+        document.getElementById("timer").innerText = "⏱ " + time;
+
+        if(time <= 0){
+            clearInterval(timer);
+            autoNext();
+        }
+    },1000);
+}
+
+// ===== HẾT GIỜ =====
+function autoNext(){
+    current++;
+    nextQuestion();
+}
+
+// ===== CHECK =====
 function check(){
 
-    let user = Number(document.getElementById("answer").value);
+    let ans = Number(document.getElementById("answer").value);
 
-    if(user === correctAnswer){
+    if(ans === correct){
         score++;
     }
 
-    current++;
     document.getElementById("answer").value="";
 
-    if(current > 10){
-        showResult();
-    }else{
-        generateQuestion();
-    }
-
+    current++;
+    nextQuestion();
 }
 
-// ===== RESULT =====
-function showResult(){
+// ===== END =====
+function endGame(){
 
     document.getElementById("gameBox").style.display="none";
     document.getElementById("resultScreen").style.display="block";
 
-    // 🧠 LEVEL THÔNG MINH
     let level = "";
 
-    if(score <= 5) level = "🟡 Trung bình";
-    else if(score <= 8) level = "🟢 Giỏi";
-    else level = "🔴 Siêu thông minh";
+    if(score <= 5) level = "Trung bình 🟡";
+    else if(score <= 8) level = "Giỏi 🟢";
+    else level = "Siêu thông minh 🔴";
 
-    document.getElementById("smartLevel").innerText = "Mức độ: " + level;
+    document.getElementById("smart").innerText =
+        "Mức độ: " + level;
 
-    // 🏆 CÚP
     let cups = 0;
 
     if(score >= 7) cups = 1;
@@ -208,14 +230,15 @@ function showResult(){
     if(score >= 9) cups = 3;
     if(score == 10) cups = 5;
 
-    let cupText = "";
-    for(let i=0;i<cups;i++){
-        cupText += "🏆 ";
-    }
+    let c = "";
+    for(let i=0;i<cups;i++) c += "🏆 ";
 
-    document.getElementById("cupText").innerText =
-        "Bạn nhận được: " + cupText;
+    document.getElementById("cup").innerText =
+        "Bạn nhận được: " + c;
+}
 
+function rand(n){
+    return Math.floor(Math.random()*n);
 }
 
 </script>
