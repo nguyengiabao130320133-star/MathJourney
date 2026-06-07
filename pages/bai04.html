@@ -2,17 +2,25 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Game Toán Lớp 5</title>
+<title>Math Game Ultimate</title>
 
 <style>
-body{
+/* ================= RESET ================= */
+*{
     margin:0;
+    padding:0;
+    box-sizing:border-box;
     font-family:Arial;
+}
+
+/* ================= BODY ================= */
+body{
     background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
     color:white;
     text-align:center;
 }
 
+/* ================= START SCREEN ================= */
 #startScreen{
     height:100vh;
     display:flex;
@@ -21,53 +29,140 @@ body{
     align-items:center;
 }
 
+#startScreen h1{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+#startScreen p{
+    opacity:0.8;
+    margin-bottom:20px;
+}
+
 #startBtn{
-    padding:20px 40px;
+    padding:18px 45px;
     font-size:22px;
     border:none;
     border-radius:15px;
     background:#ffcc00;
     font-weight:bold;
     cursor:pointer;
+    transition:0.3s;
 }
 
-#gameBox{display:none;padding:20px;}
+#startBtn:hover{
+    transform:scale(1.1);
+}
 
+/* ================= GAME AREA ================= */
+#gameBox{
+    display:none;
+    padding:20px;
+}
+
+/* TOP INFO */
+#qnum{
+    font-size:28px;
+    margin-top:10px;
+}
+
+#timer{
+    font-size:40px;
+    color:#ffcc00;
+    margin:10px;
+}
+
+/* WARNING TIMER */
+.warning{
+    animation:blink 0.4s infinite;
+}
+
+@keyframes blink{
+    0%{color:red;}
+    50%{color:transparent;}
+}
+
+/* ================= QUESTION BOX ================= */
 .box{
     background:white;
     color:black;
     max-width:600px;
     margin:auto;
-    padding:20px;
+    padding:25px;
     border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 
 input{
-    padding:10px;
+    padding:12px;
     font-size:18px;
-    width:120px;
+    width:140px;
+    text-align:center;
 }
 
-button{padding:10px 20px;margin-top:10px;}
+button{
+    margin-top:10px;
+    padding:10px 20px;
+    border:none;
+    background:#0b4f2f;
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
+}
 
-#timer{
-    font-size:30px;
-    color:#ffcc00;
-    margin:10px;
+/* ================= FLASH EFFECT ================= */
+.flash{
+    animation:flashbg 0.3s;
+}
+
+@keyframes flashbg{
+    0%{background:red;}
+    50%{background:transparent;}
+}
+
+/* ================= RESULT ================= */
+#result{
+    display:none;
+    padding:40px;
+}
+
+#result h1{
+    font-size:40px;
+}
+
+.home{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 25px;
+    background:#ffcc00;
+    color:black;
+    text-decoration:none;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+.playAgain{
+    margin-top:10px;
+    display:inline-block;
+    padding:10px 20px;
+    background:white;
+    color:black;
+    border-radius:10px;
+    cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<!-- START -->
+<!-- ================= START ================= -->
 <div id="startScreen">
-    <h1>📚 GAME TOÁN LỚP 5</h1>
-    <p>Phân số • Lời văn • Thử thách trí tuệ</p>
+    <h1>🎮 ULTIMATE MATH GAME</h1>
+    <p>Phân số • Lời văn • Tư duy logic</p>
     <button id="startBtn">BẮT ĐẦU</button>
 </div>
 
-<!-- GAME -->
+<!-- ================= GAME ================= -->
 <div id="gameBox">
 
     <h2 id="qnum"></h2>
@@ -75,35 +170,54 @@ button{padding:10px 20px;margin-top:10px;}
 
     <div class="box">
         <h2 id="question"></h2>
-        <input id="ans" type="text">
+        <input id="ans">
         <br>
         <button onclick="check()">Trả lời</button>
     </div>
 
 </div>
 
-<!-- RESULT -->
-<div id="result" style="display:none">
+<!-- ================= RESULT ================= -->
+<div id="result">
+
     <h1>🎉 HOÀN THÀNH</h1>
+
     <h2 id="level"></h2>
     <p id="cup"></p>
+
+    <div class="playAgain" onclick="location.reload()">🔄 Chơi lại</div>
+
+    <a class="home" href="../index.html">⬅ Trang chủ</a>
+
 </div>
 
 <script>
-let correctSound = new Audio("https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg");
-let wrongSound = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
+
+/* ================= AUDIO ================= */
+let bg = new Audio("https://actions.google.com/sounds/v1/ambiences/forest_ambience.ogg");
+bg.loop = true;
+bg.volume = 0.3;
+
+let ok = new Audio("https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg");
+let no = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
+let cupSound = new Audio("https://actions.google.com/sounds/v1/cartoon/concussive_hit_guitar_boing.ogg");
+
+/* ================= DATA ================= */
 let q=1;
 let score=0;
 let correct=0;
 let time;
 let t;
 
+/* ================= START ================= */
 document.getElementById("startBtn").onclick=function(){
     document.getElementById("startScreen").style.display="none";
     document.getElementById("gameBox").style.display="block";
+    bg.play();
     next();
 };
 
+/* ================= GENERATE QUESTION ================= */
 function next(){
 
     if(q>10){
@@ -113,104 +227,135 @@ function next(){
 
     document.getElementById("qnum").innerText="Câu "+q;
 
-    let type = q<=5?1:q<=8?2:3;
-
     let a,b,op;
 
-    if(type==1){
-        // phân số dễ
-        let arr=["1/2 + 1/2 = ?","2/3 + 1/3 = ?","3/4 - 1/4 = ?","1/2 + 1/4 = ?","5/10 = 1/ ?"];
-        document.getElementById("question").innerText=arr[Math.floor(Math.random()*arr.length)];
-        correct="1";
+    // EASY
+    if(q<=5){
+        a=Math.floor(Math.random()*10);
+        b=Math.floor(Math.random()*10);
+        op="+";
     }
 
-    else if(type==2){
-        // số thập phân + tính nhanh
-        a=(Math.random()*10).toFixed(1);
-        b=(Math.random()*10).toFixed(1);
-        correct=(parseFloat(a)+parseFloat(b)).toFixed(1);
-        document.getElementById("question").innerText=a+" + "+b+" = ?";
+    // MEDIUM
+    else if(q<=8){
+        a=Math.floor(Math.random()*50);
+        b=Math.floor(Math.random()*20);
+        op=Math.random()>0.5?"+":"-";
     }
 
+    // HARD
     else{
-        // lời văn + đố mẹo
-        let arr=[
-            {q:"Một cửa hàng có 12 quả táo, bán 5 quả. Hỏi còn lại?",a:"7"},
-            {q:"Một hình chữ nhật dài 10m, rộng 5m. Chu vi?",a:"30"},
-            {q:"Có 3 người, mỗi người 2 cái kẹo. Tổng?",a:"6"},
-            {q:"Nếu hôm nay là thứ Hai, sau 3 ngày là thứ mấy? (4 ký tự)",a:"Thứ Năm"},
-            {q:"10 con gà có bao nhiêu chân?",a:"20"}
-        ];
-
-        let r=arr[Math.floor(Math.random()*arr.length)];
-        document.getElementById("question").innerText=r.q;
-        correct=r.a;
+        a=Math.floor(Math.random()*100);
+        b=Math.floor(Math.random()*50);
+        op=Math.random()>0.5?"*":"-";
     }
 
-    startTime(type);
+    if(op=="+") correct=a+b;
+    if(op=="-") correct=a-b;
+    if(op=="*") correct=a*b;
+
+    document.getElementById("question").innerText=a+" "+op+" "+b;
+
+    startTime();
 }
 
-function startTime(type){
+/* ================= TIMER ================= */
+function startTime(){
 
     clearInterval(t);
 
-    if(type==1) time=10;
-    else if(type==2) time=30;
+    if(q<=5) time=10;
+    else if(q<=8) time=30;
     else time=60;
 
-    document.getElementById("timer").innerText="⏱ "+time;
+    document.getElementById("timer").classList.remove("warning");
 
     t=setInterval(()=>{
+
         time--;
+
         document.getElementById("timer").innerText="⏱ "+time;
 
+        if(time<=5){
+            document.getElementById("timer").classList.add("warning");
+        }
+
         if(time<=0){
-    wrongSound.play();   // 🔊 âm thanh khi hết giờ
-    clearInterval(t);    // dừng đồng hồ
-    q++;                 // sang câu tiếp theo
-    next();              // tạo câu mới
-}
+            no.play();
+            flash();
+            vibrate();
+            q++;
+            next();
+        }
+
     },1000);
 }
 
+/* ================= FLASH ================= */
+function flash(){
+    document.body.classList.add("flash");
+    setTimeout(()=>{
+        document.body.classList.remove("flash");
+    },300);
+}
+
+/* ================= VIBRATE ================= */
+function vibrate(){
+    if(navigator.vibrate){
+        navigator.vibrate(300);
+    }
+}
+
+/* ================= CHECK ANSWER ================= */
 function check(){
 
-    let user=document.getElementById("ans").value.trim();
+    let u=document.getElementById("ans").value;
 
-    if(user==correct){
+    if(u==correct){
         score++;
-        correctSound.play(); // 🔊 đúng
+        ok.play();
     }else{
-        wrongSound.play(); // 🔊 sai
+        no.play();
+        vibrate();
     }
+
+    document.getElementById("ans").value="";
 
     q++;
     next();
 }
 
+/* ================= END GAME ================= */
 function end(){
+
+    bg.pause();
 
     document.getElementById("gameBox").style.display="none";
     document.getElementById("result").style.display="block";
 
     let lv="";
 
-    if(score<=5) lv="Trung bình 🟡";
-    else if(score<=8) lv="Giỏi 🟢";
-    else lv="Siêu thông minh 🔴";
+    if(score<=5) lv="🟡 Trung bình";
+    else if(score<=8) lv="🟢 Giỏi";
+    else lv="🔴 Siêu thông minh";
 
     document.getElementById("level").innerText=lv;
 
     let cup=0;
+
     if(score>=7) cup=1;
     if(score>=8) cup=2;
     if(score>=9) cup=3;
     if(score==10) cup=5;
 
-    let c="";
-    for(let i=0;i<cup;i++) c+="🏆 ";
+    let text="";
+    for(let i=0;i<cup;i++) text+="🏆 ";
 
-    document.getElementById("cup").innerText="Cúp: "+c;
+    document.getElementById("cup").innerText="Cúp: "+text;
+
+    if(cup>0){
+        cupSound.play();
+    }
 }
 
 </script>
