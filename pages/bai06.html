@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Bài 6 - Auto Test + PvP</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#0f172a;
+    color:white;
+    text-align:center;
+}
+
+/* MENU */
+.menu{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    padding:10px;
+    background:#111827;
+}
+
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:10px;
+    background:#334155;
+    color:white;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#22c55e;
+}
+
+/* PAGE */
+.page{display:none;padding:20px;}
+.active{display:block;}
+
+/* CARD */
+.card{
+    width:450px;
+    margin:20px auto;
+    background:white;
+    color:black;
+    padding:20px;
+    border-radius:15px;
+}
+
+/* INPUT */
+input{
+    padding:10px;
+    width:120px;
+    text-align:center;
+}
+
+/* SCORE */
+.score{
+    display:flex;
+    justify-content:space-around;
+}
+</style>
+</head>
+
+<body>
+
+<!-- MENU -->
+<div class="menu">
+<button onclick="show('test')">📚 Auto Test</button>
+<button onclick="show('pvp')">⚔️ PvP</button>
+</div>
+
+<!-- ================= AUTO TEST ================= -->
+<div id="test" class="page active">
+
+<div class="card">
+<h2>📚 THI 40 CÂU</h2>
+
+<h3 id="qText">Loading...</h3>
+
+<input id="ans">
+<br>
+<button onclick="checkTest()">Trả lời</button>
+
+<p>⏱ Time: <span id="time">0</span></p>
+<p>⭐ Score: <span id="score">0</span></p>
+<p>📘 Câu: <span id="q">1</span>/40</p>
+</div>
+
+</div>
+
+<!-- ================= PVP ================= -->
+<div id="pvp" class="page">
+
+<h2>⚔️ PvP DUEL MODE</h2>
+
+<div class="score">
+<h3>You: <span id="me">0</span></h3>
+<h3>Enemy: <span id="enemy">0</span></h3>
+</div>
+
+<div class="card">
+<h3 id="pq">Chưa bắt đầu</h3>
+<input id="pans">
+<button onclick="checkPvP()">Trả lời</button>
+</div>
+
+</div>
+
+<script>
+
+/* SWITCH */
+function show(id){
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+}
+
+/* ================= AUTO TEST ================= */
+
+let q=1;
+let score=0;
+let correct=0;
+let time=10;
+let t;
+
+/* GENERATE */
+function genTest(){
+
+    let a,b;
+
+    if(q<=10){
+        a=r(1,10); b=r(1,10);
+        correct=a+b;
+        time=10;
+        setText(a+" + "+b);
+    }
+
+    else if(q<=20){
+        a=r(10,50); b=r(1,20);
+        correct=a-b;
+        time=20;
+        setText(a+" - "+b);
+    }
+
+    else if(q<=30){
+        a=r(2,12); b=r(2,12);
+        correct=a*b;
+        time=30;
+        setText(a+" × "+b);
+    }
+
+    else if(q<=35){
+        let x=r(5,20);
+        correct=x;
+        time=30;
+        setText("Một số ×2 = "+(x*2)+". Tìm số?");
+    }
+
+    else{
+        let a2=r(3,10);
+        let b2=r(4,12);
+        correct=a2*a2 + b2*b2;
+        time=40;
+        setText("Pythagoras: "+a2+","+b2);
+    }
+}
+
+/* SET TEXT */
+function setText(t){
+    document.getElementById("qText").innerText=t;
+}
+
+/* CHECK TEST */
+function checkTest(){
+
+    let u=Number(ans.value);
+
+    if(u==correct){
+        score+=10;
+    }
+
+    q++;
+
+    if(q>40){
+        setText("🎓 Hoàn thành!");
+        return;
+    }
+
+    ans.value="";
+    genTest();
+}
+
+/* ================= PvP LOCAL ================= */
+
+let me=0;
+let enemy=0;
+let pc=0;
+
+/* GENERATE PvP */
+function genPvP(){
+
+    let a=r(1,10);
+    let b=r(1,10);
+
+    pc=a+b;
+    document.getElementById("pq").innerText=a+" + "+b;
+}
+
+/* CHECK PvP */
+function checkPvP(){
+
+    let u=Number(pans.value);
+
+    if(u==pc){
+        me++;
+    }else{
+        enemy++;
+    }
+
+    document.getElementById("me").innerText=me;
+    document.getElementById("enemy").innerText=enemy;
+
+    pans.value="";
+    genPvP();
+}
+
+/* UTIL */
+function r(a,b){
+    return Math.floor(Math.random()*(b-a+1))+a;
+}
+
+/* START */
+genTest();
+genPvP();
+
+</script>
+
+</body>
+</html>
