@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Toán THCS - Lớp 6 đến 9</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#0f172a;
+    color:white;
+}
+
+/* HEADER */
+header{
+    background:#1e293b;
+    padding:20px;
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+}
+
+/* MENU */
+nav{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+    padding:15px;
+    background:#111827;
+}
+
+nav button{
+    padding:10px 15px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    background:#334155;
+    color:white;
+    transition:0.3s;
+}
+
+nav button:hover{
+    background:#22c55e;
+    transform:scale(1.05);
+}
+
+/* SECTION */
+section{
+    display:none;
+    padding:30px;
+    animation:fade 0.5s;
+}
+
+@keyframes fade{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+.active{
+    display:block;
+}
+
+/* CARD */
+.card{
+    background:#1e293b;
+    padding:20px;
+    border-radius:15px;
+    margin-top:15px;
+    line-height:1.7;
+}
+
+/* TITLE */
+h2{
+    color:#22c55e;
+}
+
+h3{
+    color:#38bdf8;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+📚 TOÁN THCS (LỚP 6 - 9) | ĐẠI SỐ - HÌNH HỌC - THỰC TẾ
+</header>
+
+<!-- MENU -->
+<nav>
+<button onclick="show('l6')">Lớp 6</button>
+<button onclick="show('l7')">Lớp 7</button>
+<button onclick="show('l8')">Lớp 8</button>
+<button onclick="show('l9')">Lớp 9</button>
+</nav>
+
+<!-- ================= LỚP 6 ================= -->
+<section id="l6" class="active">
+<h2>LỚP 6 - NỀN TẢNG TOÁN HỌC</h2>
+
+<div class="card">
+
+<h3>1. Số học cơ bản</h3>
+<p>
+Lớp 6 bắt đầu với số tự nhiên, số nguyên, và các phép tính cơ bản.
+Học sinh cần nắm chắc cộng, trừ, nhân, chia và thứ tự thực hiện phép tính.
+Số học là nền tảng quan trọng để học đại số sau này.
+Trong thực tế, số học giúp tính tiền, đo lường và quản lý dữ liệu.
+Ví dụ: 125 + 375 = 500 là phép tính đơn giản trong đời sống.
+Ngoài ra còn có số âm dùng để biểu diễn nhiệt độ và độ sâu.
+</p>
+
+<h3>2. Hình học cơ bản</h3>
+<p>
+Hình học lớp 6 bắt đầu với điểm, đường thẳng, đoạn thẳng.
+Học sinh học cách đo độ dài và nhận biết hình cơ bản.
+Tam giác, hình vuông, hình chữ nhật là các hình quan trọng.
+Chu vi và diện tích được giới thiệu lần đầu.
+Ví dụ: chu vi hình chữ nhật = (dài + rộng) × 2.
+Hình học giúp hiểu không gian và thiết kế.
+</p>
+
+<h3>3. Ứng dụng thực tế</h3>
+<p>
+Toán lớp 6 giúp tính toán trong mua bán và đo đạc.
+Ví dụ: tính tiền khi mua 3 món hàng khác nhau.
+Hoặc tính chiều dài hàng rào quanh khu vườn.
+Toán học giúp tư duy logic và giải quyết vấn đề thực tế.
+</p>
+
+</div>
+</section>
+
+<!-- ================= LỚP 7 ================= -->
+<section id="l7">
+<h2>LỚP 7 - ĐẠI SỐ & HÌNH HỌC MỞ RỘNG</h2>
+
+<div class="card">
+
+<h3>1. Số hữu tỉ</h3>
+<p>
+Số hữu tỉ là số có thể viết dưới dạng a/b.
+Ví dụ: 1/2, 3/4, -5/6.
+Học sinh học cách so sánh và tính toán với phân số.
+Phân số giúp biểu diễn phần của một tổng thể.
+Trong thực tế dùng để chia tiền hoặc vật thể.
+</p>
+
+<h3>2. Biểu thức đại số</h3>
+<p>
+Biểu thức chứa biến như x, y.
+Ví dụ: 2x + 3y.
+Học sinh học cách thay giá trị và tính toán.
+Đây là nền tảng của đại số nâng cao.
+</p>
+
+<h3>3. Hình học</h3>
+<p>
+Góc, tam giác, đường thẳng song song.
+Học sinh học định lí cơ bản về góc đối đỉnh.
+Ứng dụng trong xây dựng và thiết kế.
+</p>
+
+</div>
+</section>
+
+<!-- ================= LỚP 8 ================= -->
+<section id="l8">
+<h2>LỚP 8 - ĐẠI SỐ & ĐỊNH LÍ NÂNG CAO</h2>
+
+<div class="card">
+
+<h3>1. Hằng đẳng thức</h3>
+<p>
+(a+b)² = a² + 2ab + b²
+(a-b)² = a² - 2ab + b²
+Đây là công cụ quan trọng trong đại số.
+Giúp rút gọn biểu thức nhanh.
+</p>
+
+<h3>2. Phương trình</h3>
+<p>
+Phương trình bậc nhất một ẩn.
+Ví dụ: 2x + 3 = 7 → x = 2.
+Ứng dụng giải bài toán thực tế.
+</p>
+
+<h3>3. Định lí</h3>
+<p>
+Định lí Pythagoras: a² + b² = c².
+Dùng trong tam giác vuông.
+Ứng dụng đo khoảng cách thực tế.
+</p>
+
+</div>
+</section>
+
+<!-- ================= LỚP 9 ================= -->
+<section id="l9">
+<h2>LỚP 9 - ÔN THI & ỨNG DỤNG CAO</h2>
+
+<div class="card">
+
+<h3>1. Phương trình bậc hai</h3>
+<p>
+ax² + bx + c = 0.
+Giải bằng công thức nghiệm.
+Ứng dụng trong vật lý và kỹ thuật.
+</p>
+
+<h3>2. Hình học nâng cao</h3>
+<p>
+Đường tròn, tiếp tuyến, góc nội tiếp.
+Các định lí quan trọng trong hình học.
+Dùng trong thiết kế kiến trúc.
+</p>
+
+<h3>3. Toán thực tế</h3>
+<p>
+Tính lãi suất ngân hàng.
+Tính vận tốc, thời gian, quãng đường.
+Ứng dụng trong đời sống hàng ngày.
+</p>
+
+</div>
+</section>
+
+<script>
+function show(id){
+    let sec=document.querySelectorAll("section");
+    sec.forEach(s=>s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+}
+</script>
+
+</body>
+</html>
