@@ -2,18 +2,17 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Game Toán Có Thời Gian</title>
+<title>Game Toán Lớp 5</title>
 
 <style>
 body{
     margin:0;
     font-family:Arial;
-    background:linear-gradient(135deg,#141e30,#243b55);
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
     color:white;
     text-align:center;
 }
 
-/* START */
 #startScreen{
     height:100vh;
     display:flex;
@@ -26,22 +25,18 @@ body{
     padding:20px 40px;
     font-size:22px;
     border:none;
-    border-radius:12px;
-    cursor:pointer;
+    border-radius:15px;
     background:#ffcc00;
     font-weight:bold;
+    cursor:pointer;
 }
 
-/* GAME */
-#gameBox{
-    display:none;
-    padding:20px;
-}
+#gameBox{display:none;padding:20px;}
 
-.questionBox{
+.box{
     background:white;
     color:black;
-    max-width:500px;
+    max-width:600px;
     margin:auto;
     padding:20px;
     border-radius:15px;
@@ -51,194 +46,166 @@ input{
     padding:10px;
     font-size:18px;
     width:120px;
-    text-align:center;
 }
 
-button{
-    margin-top:10px;
-    padding:10px 20px;
-}
+button{padding:10px 20px;margin-top:10px;}
 
-/* TIMER */
 #timer{
     font-size:30px;
-    margin:10px;
     color:#ffcc00;
-}
-
-/* RESULT */
-#resultScreen{
-    display:none;
-    padding:40px;
+    margin:10px;
 }
 </style>
-
 </head>
 
 <body>
 
 <!-- START -->
 <div id="startScreen">
-    <h1>📚 GAME TOÁN HỌC</h1>
-    <p>Bấm bắt đầu để chơi</p>
+    <h1>📚 GAME TOÁN LỚP 5</h1>
+    <p>Phân số • Lời văn • Thử thách trí tuệ</p>
     <button id="startBtn">BẮT ĐẦU</button>
 </div>
 
 <!-- GAME -->
 <div id="gameBox">
 
-    <h2 id="levelText"></h2>
+    <h2 id="qnum"></h2>
     <div id="timer">⏱ 0</div>
 
-    <div class="questionBox">
+    <div class="box">
         <h2 id="question"></h2>
-        <input type="number" id="answer">
+        <input id="ans" type="text">
         <br>
         <button onclick="check()">Trả lời</button>
     </div>
 
-    <p id="scoreText"></p>
-
 </div>
 
 <!-- RESULT -->
-<div id="resultScreen">
-    <h1>🎉 HOÀN THÀNH 🎉</h1>
-    <h2 id="smart"></h2>
+<div id="result" style="display:none">
+    <h1>🎉 HOÀN THÀNH</h1>
+    <h2 id="level"></h2>
     <p id="cup"></p>
 </div>
 
 <script>
 
-let current = 1;
-let score = 0;
-let correct = 0;
+let q=1;
+let score=0;
+let correct=0;
+let time;
+let t;
 
-let time = 0;
-let timer;
-
-document.getElementById("startBtn").onclick = function(){
+document.getElementById("startBtn").onclick=function(){
     document.getElementById("startScreen").style.display="none";
     document.getElementById("gameBox").style.display="block";
-    nextQuestion();
-}
+    next();
+};
 
-// ===== TIME RULE =====
-function getTimeLimit(q){
-    if(q <= 5) return 10;
-    if(q <= 8) return 30;
-    return 60;
-}
+function next(){
 
-// ===== QUESTION =====
-function nextQuestion(){
-
-    if(current > 10){
-        endGame();
+    if(q>10){
+        end();
         return;
     }
 
-    document.getElementById("levelText").innerText = "Câu " + current;
+    document.getElementById("qnum").innerText="Câu "+q;
+
+    let type = q<=5?1:q<=8?2:3;
 
     let a,b,op;
 
-    if(current <= 5){
-        a = rand(10);
-        b = rand(10);
-        op = "+";
+    if(type==1){
+        // phân số dễ
+        let arr=["1/2 + 1/2 = ?","2/3 + 1/3 = ?","3/4 - 1/4 = ?","1/2 + 1/4 = ?","5/10 = 1/ ?"];
+        document.getElementById("question").innerText=arr[Math.floor(Math.random()*arr.length)];
+        correct="1";
     }
-    else if(current <= 8){
-        a = rand(50);
-        b = rand(20);
-        op = Math.random()>0.5?"+":"-";
+
+    else if(type==2){
+        // số thập phân + tính nhanh
+        a=(Math.random()*10).toFixed(1);
+        b=(Math.random()*10).toFixed(1);
+        correct=(parseFloat(a)+parseFloat(b)).toFixed(1);
+        document.getElementById("question").innerText=a+" + "+b+" = ?";
     }
+
     else{
-        a = rand(100);
-        b = rand(50);
-        op = Math.random()>0.5?"*":"-";
+        // lời văn + đố mẹo
+        let arr=[
+            {q:"Một cửa hàng có 12 quả táo, bán 5 quả. Hỏi còn lại?",a:"7"},
+            {q:"Một hình chữ nhật dài 10m, rộng 5m. Chu vi?",a:"30"},
+            {q:"Có 3 người, mỗi người 2 cái kẹo. Tổng?",a:"6"},
+            {q:"Nếu hôm nay là thứ Hai, sau 3 ngày là thứ mấy? (4 ký tự)",a:"Thứ Năm"},
+            {q:"10 con gà có bao nhiêu chân?",a:"20"}
+        ];
+
+        let r=arr[Math.floor(Math.random()*arr.length)];
+        document.getElementById("question").innerText=r.q;
+        correct=r.a;
     }
 
-    if(op=="+") correct = a+b;
-    if(op=="-") correct = a-b;
-    if(op=="*") correct = a*b;
-
-    document.getElementById("question").innerText =
-        a + " " + op + " " + b + " = ?";
-
-    startTimer(getTimeLimit(current));
+    startTime(type);
 }
 
-// ===== TIMER =====
-function startTimer(sec){
+function startTime(type){
 
-    clearInterval(timer);
-    time = sec;
+    clearInterval(t);
 
-    document.getElementById("timer").innerText = "⏱ " + time;
+    if(type==1) time=10;
+    else if(type==2) time=30;
+    else time=60;
 
-    timer = setInterval(()=>{
+    document.getElementById("timer").innerText="⏱ "+time;
+
+    t=setInterval(()=>{
         time--;
-        document.getElementById("timer").innerText = "⏱ " + time;
+        document.getElementById("timer").innerText="⏱ "+time;
 
-        if(time <= 0){
-            clearInterval(timer);
-            autoNext();
+        if(time<=0){
+            clearInterval(t);
+            q++;
+            next();
         }
     },1000);
 }
 
-// ===== HẾT GIỜ =====
-function autoNext(){
-    current++;
-    nextQuestion();
-}
-
-// ===== CHECK =====
 function check(){
 
-    let ans = Number(document.getElementById("answer").value);
+    let user=document.getElementById("ans").value.trim();
 
-    if(ans === correct){
+    if(user==correct){
         score++;
     }
 
-    document.getElementById("answer").value="";
-
-    current++;
-    nextQuestion();
+    q++;
+    next();
 }
 
-// ===== END =====
-function endGame(){
+function end(){
 
     document.getElementById("gameBox").style.display="none";
-    document.getElementById("resultScreen").style.display="block";
+    document.getElementById("result").style.display="block";
 
-    let level = "";
+    let lv="";
 
-    if(score <= 5) level = "Trung bình 🟡";
-    else if(score <= 8) level = "Giỏi 🟢";
-    else level = "Siêu thông minh 🔴";
+    if(score<=5) lv="Trung bình 🟡";
+    else if(score<=8) lv="Giỏi 🟢";
+    else lv="Siêu thông minh 🔴";
 
-    document.getElementById("smart").innerText =
-        "Mức độ: " + level;
+    document.getElementById("level").innerText=lv;
 
-    let cups = 0;
+    let cup=0;
+    if(score>=7) cup=1;
+    if(score>=8) cup=2;
+    if(score>=9) cup=3;
+    if(score==10) cup=5;
 
-    if(score >= 7) cups = 1;
-    if(score >= 8) cups = 2;
-    if(score >= 9) cups = 3;
-    if(score == 10) cups = 5;
+    let c="";
+    for(let i=0;i<cup;i++) c+="🏆 ";
 
-    let c = "";
-    for(let i=0;i<cups;i++) c += "🏆 ";
-
-    document.getElementById("cup").innerText =
-        "Bạn nhận được: " + c;
-}
-
-function rand(n){
-    return Math.floor(Math.random()*n);
+    document.getElementById("cup").innerText="Cúp: "+c;
 }
 
 </script>
