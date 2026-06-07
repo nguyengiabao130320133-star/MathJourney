@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Game Toán Học</title>
+
+<style>
+body{
+    font-family:Arial;
+    margin:0;
+    background:linear-gradient(135deg,#1e3c72,#2a5298);
+    color:white;
+    text-align:center;
+}
+
+/* ===== START SCREEN ===== */
+#startScreen{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+#startBtn{
+    padding:20px 40px;
+    font-size:24px;
+    font-weight:bold;
+    border:none;
+    border-radius:15px;
+    cursor:pointer;
+    background:#ffcc00;
+    transition:0.3s;
+}
+
+#startBtn:hover{
+    transform:scale(1.1);
+}
+
+/* DECOR */
+.deco{
+    font-size:50px;
+    margin:10px;
+}
+
+/* GAME BOX */
+#gameBox{
+    display:none;
+    padding:20px;
+}
+
+.questionBox{
+    background:white;
+    color:black;
+    max-width:500px;
+    margin:20px auto;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.3);
+}
+
+input{
+    padding:10px;
+    font-size:18px;
+    width:100px;
+    text-align:center;
+}
+
+button{
+    padding:10px 20px;
+    margin-top:10px;
+    cursor:pointer;
+}
+
+/* RESULT */
+#resultScreen{
+    display:none;
+    padding:40px;
+}
+
+.cup{
+    font-size:40px;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- 🎮 START SCREEN -->
+<div id="startScreen">
+    <div class="deco">📚 🏆 📖 🏅 📚</div>
+    <h1>GAME HỌC TOÁN</h1>
+    <p>Bấm bắt đầu để chơi</p>
+    <button id="startBtn">BẮT ĐẦU</button>
+    <div class="deco">🏆 📖 🏅 📚 🏆</div>
+</div>
+
+<!-- 🎯 GAME -->
+<div id="gameBox">
+
+    <h2 id="levelText">Câu 1</h2>
+
+    <div class="questionBox">
+        <h2 id="question"></h2>
+        <input type="number" id="answer">
+        <br>
+        <button onclick="check()">Trả lời</button>
+    </div>
+
+    <p id="scoreText"></p>
+
+</div>
+
+<!-- 🏁 RESULT -->
+<div id="resultScreen">
+    <h1>🎉 HOÀN THÀNH 🎉</h1>
+    <h2 id="smartLevel"></h2>
+    <p id="cupText"></p>
+</div>
+
+<script>
+
+let current = 1;
+let score = 0;
+let correctAnswer = 0;
+
+// ===== START GAME =====
+document.getElementById("startBtn").onclick = function(){
+    document.getElementById("startScreen").style.display="none";
+    document.getElementById("gameBox").style.display="block";
+    generateQuestion();
+}
+
+// ===== RANDOM QUESTION =====
+function generateQuestion(){
+
+    document.getElementById("levelText").innerText = "Câu " + current;
+
+    let a,b,op;
+
+    // 🔥 PHÂN LOẠI ĐỘ KHÓ
+    if(current <= 5){
+        a = Math.floor(Math.random()*10);
+        b = Math.floor(Math.random()*10);
+        op = "+";
+    }
+    else if(current <= 8){
+        a = Math.floor(Math.random()*50);
+        b = Math.floor(Math.random()*20);
+        op = Math.random()>0.5 ? "+" : "-";
+    }
+    else{
+        a = Math.floor(Math.random()*100);
+        b = Math.floor(Math.random()*50);
+        op = Math.random()>0.5 ? "*" : "-"; // siêu khó
+    }
+
+    // tính đáp án
+    if(op=="+") correctAnswer = a+b;
+    if(op=="-") correctAnswer = a-b;
+    if(op=="*") correctAnswer = a*b;
+
+    document.getElementById("question").innerText =
+        a + " " + op + " " + b + " = ?";
+}
+
+// ===== CHECK ANSWER =====
+function check(){
+
+    let user = Number(document.getElementById("answer").value);
+
+    if(user === correctAnswer){
+        score++;
+    }
+
+    current++;
+    document.getElementById("answer").value="";
+
+    if(current > 10){
+        showResult();
+    }else{
+        generateQuestion();
+    }
+
+}
+
+// ===== RESULT =====
+function showResult(){
+
+    document.getElementById("gameBox").style.display="none";
+    document.getElementById("resultScreen").style.display="block";
+
+    // 🧠 LEVEL THÔNG MINH
+    let level = "";
+
+    if(score <= 5) level = "🟡 Trung bình";
+    else if(score <= 8) level = "🟢 Giỏi";
+    else level = "🔴 Siêu thông minh";
+
+    document.getElementById("smartLevel").innerText = "Mức độ: " + level;
+
+    // 🏆 CÚP
+    let cups = 0;
+
+    if(score >= 7) cups = 1;
+    if(score >= 8) cups = 2;
+    if(score >= 9) cups = 3;
+    if(score == 10) cups = 5;
+
+    let cupText = "";
+    for(let i=0;i<cups;i++){
+        cupText += "🏆 ";
+    }
+
+    document.getElementById("cupText").innerText =
+        "Bạn nhận được: " + cupText;
+
+}
+
+</script>
+
+</body>
+</html>
