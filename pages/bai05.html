@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Toán THCS 6-9 Full</title>
+<title>Bài 5 - Toán THCS</title>
 
 <style>
 body{
@@ -12,324 +12,189 @@ body{
     color:white;
 }
 
-/* HEADER */
-header{
+/* NAV */
+nav{
+    background:#111827;
+    padding:15px;
+    position:sticky;
+    top:0;
     text-align:center;
-    padding:20px;
-    background:#1e293b;
-    font-size:20px;
+}
+
+nav a{
+    color:white;
+    margin:0 10px;
+    text-decoration:none;
     font-weight:bold;
 }
 
-/* MENU LỚP */
-.menu{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    flex-wrap:wrap;
-    background:#111827;
-    padding:10px;
+section{
+    padding:40px;
+    border-bottom:1px solid #334155;
 }
 
-.menu button{
-    padding:10px 15px;
-    border:none;
-    border-radius:10px;
-    background:#334155;
-    color:white;
-    cursor:pointer;
+h1,h2{
+    color:#22c55e;
 }
 
-.menu button:hover{
-    background:#22c55e;
-}
-
-/* CLASS */
-.class{
-    display:none;
-    padding:20px;
-}
-
-.active{
-    display:block;
-}
-
-/* SUB MENU */
-.submenu{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-bottom:10px;
-}
-
-.submenu button{
-    padding:8px 12px;
-    border:none;
-    border-radius:8px;
-    background:#475569;
-    color:white;
-}
-
-/* CONTENT */
-.content{
-    display:none;
+.box{
     background:#1e293b;
-    padding:25px;
-    border-radius:15px;
-    line-height:1.9;
-    min-height:500px;
+    padding:20px;
+    border-radius:10px;
+    margin-top:10px;
+    line-height:1.8;
 }
 
-.show{
-    display:block;
+.highlight{
+    color:#38bdf8;
+    font-weight:bold;
 }
-
-h2{color:#22c55e}
-h3{color:#38bdf8}
-p{color:#e5e7eb}
 </style>
 </head>
 
 <body>
 
-<header>
-📚 TOÁN THCS FULL GIÁO TRÌNH (LỚP 6 → 9)
-</header>
-
-<!-- MENU LỚP -->
-<div class="menu">
-<button onclick="openClass('l6')">Lớp 6</button>
-<button onclick="openClass('l7')">Lớp 7</button>
-<button onclick="openClass('l8')">Lớp 8</button>
-<button onclick="openClass('l9')">Lớp 9</button>
-</div>
+<nav>
+<a href="#l6">Lớp 6</a>
+<a href="#l7">Lớp 7</a>
+<a href="#l8">Lớp 8</a>
+<a href="#l9">Lớp 9</a>
+</nav>
 
 <!-- ================= LỚP 6 ================= -->
-<div id="l6" class="class active">
+<section id="l6">
+<h1>📘 LỚP 6 - NỀN TẢNG TOÁN HỌC</h1>
 
-<div class="submenu">
-<button onclick="openTab('l6a')">Đại số</button>
-<button onclick="openTab('l6b')">Hình học</button>
-<button onclick="openTab('l6c')">Định lí</button>
-<button onclick="openTab('l6d')">Thực tế</button>
-</div>
-
-<div id="l6a" class="content show">
-<h2>LỚP 6 - ĐẠI SỐ</h2>
+<div class="box">
+<h2>🔢 Số học</h2>
 <p>
-Đại số lớp 6 bắt đầu với tập hợp số tự nhiên và số nguyên.
-Học sinh học các phép toán cơ bản: cộng, trừ, nhân, chia.
-Việc tính toán giúp hình thành tư duy logic ban đầu.
-Số nguyên âm dùng để biểu diễn nhiệt độ dưới 0 độ C.
-Biểu thức đơn giản như 2 + 3, 7 - 5 giúp luyện tư duy tính toán.
-Ngoài ra còn học thứ tự thực hiện phép tính: ngoặc trước, nhân chia trước, cộng trừ sau.
-Đây là nền tảng quan trọng để học đại số sau này.
-Trong thực tế, số học được dùng để tính tiền, đo thời gian và xử lý dữ liệu.
-Ví dụ: 120 + 380 = 500 là phép tính trong mua bán hàng ngày.
+- Số tự nhiên, số nguyên, số âm và số dương  
+- Cộng, trừ, nhân, chia số nguyên  
+- Phân số và số hữu tỉ cơ bản  
+- Quy tắc dấu ngoặc và thứ tự phép tính  
+</p>
+
+<p class="highlight">
+Ví dụ: -5 + 12 - 3 = 4
 </p>
 </div>
 
-<div id="l6b" class="content">
-<h2>LỚP 6 - HÌNH HỌC</h2>
+<div class="box">
+<h2>📏 Hình học cơ bản</h2>
 <p>
-Hình học lớp 6 bắt đầu với điểm, đường thẳng và đoạn thẳng.
-Điểm là vị trí trong không gian, không có kích thước.
-Đường thẳng kéo dài vô hạn về hai phía.
-Đoạn thẳng có hai điểm đầu và cuối.
-Tam giác là hình có ba cạnh và ba góc.
-Chu vi là tổng độ dài các cạnh của hình.
-Diện tích là phần mặt phẳng bên trong hình.
-Ví dụ: hình chữ nhật có diện tích bằng dài nhân rộng.
-Hình học giúp học sinh hiểu không gian xung quanh.
+- Điểm, đoạn thẳng, tia, đường thẳng  
+- Đo độ dài bằng thước  
+- Góc: nhọn, vuông, tù, bẹt  
+- Nhận biết góc trong hình  
 </p>
 </div>
 
-<div id="l6c" class="content">
-<h2>LỚP 6 - ĐỊNH LÍ</h2>
+<div class="box">
+<h2>🌍 Toán thực tế</h2>
 <p>
-Tổng ba góc trong một tam giác luôn bằng 180 độ.
-Hai góc đối đỉnh thì bằng nhau.
-Hai đường thẳng song song thì không cắt nhau.
-Các định lí này giúp giải bài toán hình học cơ bản.
-Chúng là nền tảng để học hình học nâng cao ở lớp trên.
+- Tính tiền mua bán  
+- Đo chiều dài, khối lượng  
+- Bài toán lời văn 1–2 bước  
 </p>
 </div>
-
-<div id="l6d" class="content">
-<h2>LỚP 6 - THỰC TẾ</h2>
-<p>
-Toán học giúp giải quyết các vấn đề trong đời sống.
-Ví dụ: tính tiền khi mua nhiều món hàng.
-Tính chiều dài hàng rào quanh vườn.
-Tính thời gian đi từ nhà đến trường.
-Toán học giúp phát triển tư duy logic và khả năng giải quyết vấn đề.
-</p>
-</div>
-
-</div>
+</section>
 
 <!-- ================= LỚP 7 ================= -->
-<div id="l7" class="class">
+<section id="l7">
+<h1>📗 LỚP 7 - PHÁT TRIỂN TƯ DUY</h1>
 
-<div class="submenu">
-<button onclick="openTab('l7a')">Đại số</button>
-<button onclick="openTab('l7b')">Hình học</button>
-<button onclick="openTab('l7c')">Định lí</button>
-<button onclick="openTab('l7d')">Thực tế</button>
-</div>
-
-<div id="l7a" class="content show">
-<h2>LỚP 7 - ĐẠI SỐ</h2>
+<div class="box">
+<h2>📊 Đại số</h2>
 <p>
-Số hữu tỉ là số viết được dưới dạng phân số a/b.
-Ví dụ: 1/2, -3/4, 5/6.
-Biểu thức đại số chứa biến như x, y.
-Ví dụ: 2x + 3y - 5.
-Học sinh học cách rút gọn và thay giá trị vào biểu thức.
-Đây là bước chuyển từ số học sang đại số.
+- Số hữu tỉ mở rộng  
+- Biểu thức đại số đơn giản  
+- Tỉ lệ thức  
+- Tính giá trị biểu thức  
 </p>
 </div>
 
-<div id="l7b" class="content">
-<h2>LỚP 7 - HÌNH HỌC</h2>
+<div class="box">
+<h2>📐 Hình học</h2>
 <p>
-Góc là hình tạo bởi hai tia chung gốc.
-Các loại góc: nhọn, vuông, tù, bẹt.
-Hai đường thẳng song song không cắt nhau.
-Góc so le trong và đồng vị xuất hiện khi có đường cắt.
-Hình học lớp 7 mở rộng tư duy không gian.
+- Hai đường thẳng song song  
+- Góc so le trong, đồng vị  
+- Tam giác cơ bản  
+- Tổng ba góc tam giác = 180°  
 </p>
 </div>
 
-<div id="l7c" class="content">
-<h2>LỚP 7 - ĐỊNH LÍ</h2>
+<div class="box">
+<h2>🧠 Bài toán</h2>
 <p>
-Góc đối đỉnh bằng nhau.
-Nếu hai đường thẳng song song thì các góc tương ứng bằng nhau.
-Đây là các định lí quan trọng trong hình học phẳng.
-Chúng giúp giải các bài toán chứng minh.
+- Bài toán tỉ lệ  
+- Bài toán chia phần  
+- Suy luận đơn giản  
 </p>
 </div>
-
-<div id="l7d" class="content">
-<h2>LỚP 7 - THỰC TẾ</h2>
-<p>
-Toán học được dùng trong chia tiền, tính lãi, đo góc.
-Ví dụ: chia 100k cho 4 người.
-Tính phần trăm giảm giá khi mua hàng.
-</p>
-</div>
-
-</div>
+</section>
 
 <!-- ================= LỚP 8 ================= -->
-<div id="l8" class="class">
+<section id="l8">
+<h1>📙 LỚP 8 - NÂNG CAO</h1>
 
-<div class="submenu">
-<button onclick="openTab('l8a')">Đại số</button>
-<button onclick="openTab('l8b')">Hình học</button>
-<button onclick="openTab('l8c')">Định lí</button>
-<button onclick="openTab('l8d')">Thực tế</button>
-</div>
-
-<div id="l8a" class="content show">
-<h2>LỚP 8 - ĐẠI SỐ</h2>
+<div class="box">
+<h2>📊 Đại số</h2>
 <p>
-Hằng đẳng thức đáng nhớ:
-(a+b)² = a² + 2ab + b²
-(a-b)² = a² - 2ab + b²
-Đây là công cụ rút gọn biểu thức nhanh.
-Phương trình bậc nhất một ẩn dạng ax + b = 0.
-Giải bằng cách chuyển vế và thu gọn.
+- Hằng đẳng thức đáng nhớ  
+- Phân tích đa thức  
+- Phương trình bậc nhất  
 </p>
 </div>
 
-<div id="l8b" class="content">
-<h2>LỚP 8 - HÌNH HỌC</h2>
+<div class="box">
+<h2>📐 Hình học</h2>
 <p>
-Tam giác đồng dạng và bằng nhau.
-Định lí Pythagoras: a² + b² = c².
-Ứng dụng trong đo khoảng cách thực tế.
+- Tam giác đồng dạng  
+- Định lý Thales  
+- Hình bình hành, hình thang  
 </p>
 </div>
 
-<div id="l8c" class="content">
-<h2>LỚP 8 - ĐỊNH LÍ</h2>
+<div class="box">
+<h2>🔥 Ứng dụng</h2>
 <p>
-Định lí Pythagoras dùng cho tam giác vuông.
-Định lí Talet trong tam giác.
-Các định lí này rất quan trọng trong chứng minh hình học.
+- Bài toán thực tế nhiều bước  
+- Tính diện tích + suy luận  
 </p>
 </div>
-
-<div id="l8d" class="content">
-<h2>LỚP 8 - THỰC TẾ</h2>
-<p>
-Tính chiều cao tòa nhà bằng bóng.
-Tính khoảng cách không đo trực tiếp.
-Ứng dụng trong xây dựng và kỹ thuật.
-</p>
-</div>
-
-</div>
+</section>
 
 <!-- ================= LỚP 9 ================= -->
-<div id="l9" class="class">
+<section id="l9">
+<h1>📕 LỚP 9 - ÔN THI</h1>
 
-<div class="submenu">
-<button onclick="openTab('l9a')">Đại số</button>
-<button onclick="openTab('l9b')">Hình học</button>
-<button onclick="openTab('l9c')">Định lí</button>
-<button onclick="openTab('l9d')">Thực tế</button>
-</div>
-
-<div id="l9a" class="content show">
-<h2>LỚP 9 - ĐẠI SỐ</h2>
+<div class="box">
+<h2>📊 Đại số</h2>
 <p>
-Phương trình bậc hai ax² + bx + c = 0.
-Công thức nghiệm giúp tìm x.
-Hàm số bậc hai có đồ thị parabol.
+- Phương trình bậc hai  
+- Hệ phương trình  
+- Hàm số y = ax²  
 </p>
 </div>
 
-<div id="l9b" class="content">
-<h2>LỚP 9 - HÌNH HỌC</h2>
+<div class="box">
+<h2>📐 Hình học</h2>
 <p>
-Đường tròn, cung, dây cung.
-Tiếp tuyến vuông góc với bán kính.
+- Đường tròn  
+- Góc nội tiếp  
+- Tiếp tuyến  
 </p>
 </div>
 
-<div id="l9c" class="content">
-<h2>LỚP 9 - ĐỊNH LÍ</h2>
+<div class="box">
+<h2>🏆 Bài toán khó</h2>
 <p>
-Góc nội tiếp bằng nửa góc ở tâm.
-Các định lí hình tròn quan trọng.
+- Bài tổng hợp nhiều bước  
+- Suy luận hình + đại  
+- Bài thi vào 10  
 </p>
 </div>
-
-<div id="l9d" class="content">
-<h2>LỚP 9 - THỰC TẾ</h2>
-<p>
-Tính lãi suất ngân hàng.
-Tính vận tốc và thời gian.
-Ứng dụng trong thi cử và đời sống.
-</p>
-</div>
-
-</div>
-
-<script>
-function openClass(id){
-    document.querySelectorAll(".class").forEach(c=>c.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-}
-
-function openTab(id){
-    document.querySelectorAll(".content").forEach(c=>c.classList.remove("show"));
-    document.getElementById(id).classList.add("show");
-}
-</script>
+</section>
 
 </body>
 </html>
